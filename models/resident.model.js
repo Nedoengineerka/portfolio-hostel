@@ -11,6 +11,7 @@ const residentSchema = new mongoose.Schema({
   isDebtor: Boolean,
   phoneNumber: String,
   documents: [{ type: Schema.Types.ObjectId, ref: "document" }],
+  payments: [{ type: Schema.Types.ObjectId, ref: "payment"}]
 });
 
 const Resident = mongoose.model("resident", residentSchema);
