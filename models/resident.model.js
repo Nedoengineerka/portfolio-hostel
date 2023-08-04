@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = require("mongoose");
 
 const residentSchema = new mongoose.Schema({
   nameSurname: String,
@@ -9,7 +10,7 @@ const residentSchema = new mongoose.Schema({
   group: String,
   isDebtor: Boolean,
   phoneNumber: String,
-  passportNumber: { type: String, unique: true },
+  documents: [{ type: Schema.Types.ObjectId, ref: "document" }],
 });
 
 const Resident = mongoose.model("resident", residentSchema);

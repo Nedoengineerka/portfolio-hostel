@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./user.model");
 const Resident = require("./resident.model");
+const Document = require("./document.model");
 
 async function connectToDatabase() {
   try {
@@ -24,5 +25,6 @@ async function connectToDatabase() {
 module.exports = {
     connectToDatabase,
     User,
-    Resident
+    Resident,
+    Document
 }
