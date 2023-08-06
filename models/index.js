@@ -3,6 +3,7 @@ const User = require("./user.model");
 const Resident = require("./resident.model");
 const Document = require("./document.model");
 const Payment = require("./payment.model");
+const refreshTokenModel = require("./refreshToken.model");
 
 async function connectToDatabase() {
   try {
@@ -28,5 +29,6 @@ module.exports = {
     User,
     Resident,
     Document,
-    Payment
+    Payment,
+    refreshTokenModel
 }
