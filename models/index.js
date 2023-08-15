@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const logger = require("../services/logger.service");
 const User = require("./user.model");
 const Resident = require("./resident.model");
 const Document = require("./document.model");
@@ -7,28 +8,27 @@ const refreshTokenModel = require("./refreshToken.model");
 
 async function connectToDatabase() {
   try {
-    console.log("Connecting to database...");
     await mongoose
       .connect(process.env.DB_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
       .then((res) => {
-        console.log("MongoDB Connection Succeeded.");
+        logger.info("MongoDB Connection Succeeded.");
       })
       .catch((error) => {
-        console.log(error);
+        logger.error("Database: " + error.message);
       });
   } catch (error) {
-    console.log(error);
+    logger.error("Database: " + error.message);
   }
 }
 
 module.exports = {
-    connectToDatabase,
-    User,
-    Resident,
-    Document,
-    Payment,
-    refreshTokenModel
-}
+  connectToDatabase,
+  User,
+  Resident,
+  Document,
+  Payment,
+  refreshTokenModel,
+};
