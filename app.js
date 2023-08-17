@@ -34,3 +34,4 @@ logger.info(`Server running at port ${port}`);
 
 //routes
 app.use("/auth", routes.authRouter);
+app.use("/resident", routes.residentRouter);
