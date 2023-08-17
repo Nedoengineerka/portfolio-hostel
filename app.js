@@ -3,8 +3,9 @@ require("dotenv").config();
 const db = require("./models");
 const routes = require("./routes");
 const cookieParser = require("cookie-parser");
-const logger = require("./services/logger.service");
+const logger  = require("./services/logger.service");
 const httpPino = require("pino-http");
+const loggerConfig = require("./config/logger.config");
 
 const app = express();
 
@@ -16,8 +17,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(httpPino({
-    logger,
-}))
+    logger: logger,
+    serializers: {
+      err: loggerConfig.errSerializer,
+      req: loggerConfig.reqSerializer,
+      res: loggerConfig.resSerializer
+    },
+}));
 
 
 // create server
