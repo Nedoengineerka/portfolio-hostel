@@ -12,15 +12,23 @@ const accessTokenConfig = {
     expiresIn_String: "1h",
 };
 
-const jwtCookieConfig = {
+const jwtRefreshConfig = {
     httpOnly: true,
     sameSite: "None",
     secure: true,
     maxAge: 12 * 60 * 60 * 1000, // hours to ms
 };
 
+const jwtAccessConfig = {
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
+    maxAge: 60 * 60 * 1000, // hours to ms
+};
+
 module.exports = {
     refreshTokenConfig,
     accessTokenConfig,
-    jwtCookieConfig
+    jwtRefreshConfig,
+    jwtAccessConfig
 }

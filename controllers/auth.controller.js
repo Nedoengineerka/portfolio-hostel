@@ -86,8 +86,9 @@ exports.login = async (req, res) => {
               expiriedAt: authConfig.refreshTokenConfig.expiresIn_Date(),
               user: user._id,
             });
-            res.cookie("jwt", refreshToken, authConfig.jwtCookieConfig);
-            return res.status(200).json({ accessToken });
+            res.cookie("jwtRefresh", refreshToken, authConfig.jwtRefreshConfig);
+            res.cookie("jwtAccess", accessToken, authConfig.jwtAccessConfig);
+            return res.status(200).end("Authorization has been successful.");
           });
       } else {
         res.status(401).end("Wrong password");
@@ -100,15 +101,15 @@ exports.login = async (req, res) => {
 
 exports.refresh = async (req, res) => {
   try {
-    if (!req.cookies.jwt) return res.status(401).end("Token is needed");
+    if (!req.cookies.jwtRefresh) return res.status(401).end("Token is needed");
     await refreshTokenModel
-      .findOne({ token: req.cookies.jwt })
+      .findOne({ token: req.cookies.jwtRefresh })
       .then(async (token) => {
         if (!token) {
           res.status(403).end("Refresh token is required");
         } else {
           jwt.verify(
-            req.cookies.jwt,
+            req.cookies.jwtRefresh,
             authConfig.refreshTokenConfig.refreshSecret,
             async (err, decoded) => {
               if (err) {
@@ -129,7 +130,8 @@ exports.refresh = async (req, res) => {
                     expiresIn: authConfig.accessTokenConfig.expiresIn_String,
                   }
                 );
-                res.status(200).json({ accessToken });
+                res.cookie("jwtAccess", accessToken, authConfig.jwtAccessConfig);
+                res.status(200).end("The new Access token has been successfully created.");
               }
             }
           );

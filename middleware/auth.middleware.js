@@ -3,7 +3,7 @@ const { User } = require("../models");
 
 async function adminAccess(req, res, next) {
   try {
-    const token = req.headers["x-access-token"];
+    const token = req.cookies.jwtAccess;
     if (!token) return res.status(401).end("Token is needed");
     else {
       jwt.verify(
@@ -34,7 +34,7 @@ async function adminAccess(req, res, next) {
 
 async function userAccess(req, res, next) {
   try {
-    const token = req.headers["x-access-token"];
+    const token = req.cookies.jwtAccess;
     if (token == null) return res.status(401).end("Token is needed");
     else {
       jwt.verify(
