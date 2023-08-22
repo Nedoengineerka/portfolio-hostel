@@ -7,7 +7,6 @@ const Payment = require("./payment.model");
 const refreshTokenModel = require("./refreshToken.model");
 
 async function connectToDatabase() {
-  try {
     await mongoose
       .connect(process.env.DB_URL, {
         useNewUrlParser: true,
@@ -18,10 +17,8 @@ async function connectToDatabase() {
       })
       .catch((error) => {
         logger.error("Database: " + error.message);
+        process.exit(1);
       });
-  } catch (error) {
-    logger.error("Database: " + error.message);
-  }
 }
 
 module.exports = {

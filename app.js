@@ -3,28 +3,30 @@ require("dotenv").config();
 const db = require("./models");
 const routes = require("./routes");
 const cookieParser = require("cookie-parser");
-const logger  = require("./services/logger.service");
+const logger = require("./services/logger.service");
 const httpPino = require("pino-http");
 const loggerConfig = require("./config/logger.config");
 
 const app = express();
 
 // database
-db.connectToDatabase();
-
+(async () => {
+  await db.connectToDatabase();
+})();
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(httpPino({
+app.use(
+  httpPino({
     logger: logger,
     serializers: {
       err: loggerConfig.errSerializer,
       req: loggerConfig.reqSerializer,
-      res: loggerConfig.resSerializer
+      res: loggerConfig.resSerializer,
     },
-}));
-
+  })
+);
 
 // create server
 const port = process.env.PORT || 3000;

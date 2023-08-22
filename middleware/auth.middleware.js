@@ -18,11 +18,10 @@ async function adminAccess(req, res, next) {
               res.end("Invalid token or signature");
             } else res.end(`An error occurred: ${err.message}`);
           } else {
-            await User.findOne({ login: decoded.login }).then((user) => {
-              if (!user) res.status(409).end("User not found");
-              if (user.role != 1) res.status(401).end("Access denied");
-              else next();
-            });
+            const user = await User.findOne({ login: decoded.login });
+            if (!user) res.status(409).end("User not found");
+            if (user.role != 1) res.status(401).end("Access denied");
+            else next();
           }
         }
       );
@@ -49,10 +48,9 @@ async function userAccess(req, res, next) {
               res.end("Invalid token or signature");
             } else res.end(`An error occurred: ${err.message}`);
           } else {
-            await User.findOne({ login: decoded.login }).then((user) => {
-              if (!user) res.status(409).end("User not found");
-              else next();
-            });
+            const user = await User.findOne({ login: decoded.login });
+            if (!user) res.status(409).end("User not found");
+            else next();
           }
         }
       );
